@@ -1,9 +1,10 @@
 import { Component } from 'react';
+import { Form, Button, Group, Label, Input } from './Styles';
 
 class ContactForm extends Component {
   state = {
-    contacts: this.props.contacts,
-    name: this.props.name,
+    name: '',
+    number: '',
   };
 
   handleChange = ({ target }) => {
@@ -14,18 +15,24 @@ class ContactForm extends Component {
 
   handleSubmit = evt => {
     evt.preventDefault();
-    this.props.createContact({
-      name: this.state.name,
-    });
-    this.setState({ name: '' });
+    const { name, number } = this.state;
+
+    if (this.props.contacts.some(contact => contact.name === name)) {
+      alert(`${name} is already in contacts!`);
+    } else {
+      this.props.createContact({
+        name,
+        number,
+      });
+      this.setState({ name: '', number: '' });
+    }
   };
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name
-          <input
+      <Form onSubmit={this.handleSubmit}>
+        <Group>
+          <Input
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -34,9 +41,22 @@ class ContactForm extends Component {
             onChange={this.handleChange}
             value={this.state.name}
           />
-        </label>
-        <button type="submit">Add contact</button>
-      </form>
+          <Label>Name</Label>
+        </Group>
+        <Group>
+          <Input
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            onChange={this.handleChange}
+            value={this.state.number}
+          />
+          <Label>Number </Label>
+        </Group>
+        <Button type="submit">Add contact</Button>
+      </Form>
     );
   }
 }
