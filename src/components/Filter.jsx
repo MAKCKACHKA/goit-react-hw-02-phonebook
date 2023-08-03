@@ -5,15 +5,14 @@ class Filter extends Component {
   render() {
     return (
       <>
-        <FilterLabel>
-          Find contacts by name:
-          <FilterInput
-            type="text"
-            name="filter"
-            value={this.props.filter}
-            onChange={this.props.handleFilterChange}
-          />
-        </FilterLabel>
+        <FilterLabel>Find contacts by name: </FilterLabel>
+
+        <FilterInput
+          type="text"
+          name="filter"
+          value={this.props.filter}
+          onChange={this.props.handleFilterChange}
+        />
       </>
     );
   }
